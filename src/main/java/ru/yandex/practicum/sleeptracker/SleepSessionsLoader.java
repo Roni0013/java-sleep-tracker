@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,8 +19,7 @@ public class SleepSessionsLoader {
     }
 
     public List<SleepingSession> get() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            System.out.println(reader.getClass());
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath, StandardCharsets.UTF_8))) {
             return reader.lines().map(line -> {
                 try {
                     return SleepingSession.Parser.parse(line);

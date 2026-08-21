@@ -13,7 +13,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class SleepingTypeFunction implements SleepingFunction<String> {
-    private static final String FUNCTION_NAME = "Классификация: ";
+    private static final String FUNCTION_NAME = "Классификация";
+    private static final LocalTime EARLY_SLEEP_TIME = LocalTime.of(22, 0);
+    private static final LocalTime LATE_SLEEP_TIME = LocalTime.of(23, 0);
+    private static final LocalTime EARLY_WAKEUP_TIME = LocalTime.of(7, 0);
+    private static final LocalTime LATE_WAKEUP_TIME = LocalTime.of(9, 0);
 
     @Override
     public SleepAnalysisResult<Optional<String>> apply(List<SleepingSession> sessions) {
@@ -41,13 +45,13 @@ public class SleepingTypeFunction implements SleepingFunction<String> {
     private HumanType checkHumanType(LocalDateTime start, LocalDateTime end) {
         LocalDate currentDate = SleepingDateHelper.calcCurrentDate(start);
         if (
-            start.isAfter(LocalDateTime.of(currentDate.minusDays(1), LocalTime.of(23, 0)))
-                && end.isAfter(LocalDateTime.of(currentDate, LocalTime.of(9, 0)))
+            start.isAfter(LocalDateTime.of(currentDate.minusDays(1), LATE_SLEEP_TIME))
+                && end.isAfter(LocalDateTime.of(currentDate, LATE_WAKEUP_TIME))
         ) {
             return HumanType.LATE;
         } else if (
-            start.isBefore(LocalDateTime.of(currentDate.minusDays(1), LocalTime.of(22, 0)))
-                && end.isBefore(LocalDateTime.of(currentDate, LocalTime.of(7, 0)))
+            start.isBefore(LocalDateTime.of(currentDate.minusDays(1), EARLY_SLEEP_TIME))
+                && end.isBefore(LocalDateTime.of(currentDate, EARLY_WAKEUP_TIME))
         ) {
             return HumanType.EARLY;
         } else {

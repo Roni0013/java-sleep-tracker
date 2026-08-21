@@ -12,12 +12,12 @@ public class CountQualityFunction implements SleepingFunction<Integer> {
 
     public CountQualityFunction(SleepQuality sleepQuality) {
         this.sleepQuality = sleepQuality;
-        name = "Качество сессий сна " + sleepQuality.name() + ", шт";
+        name = String.format("Качество сессий сна %s, шт", sleepQuality.name());
     }
 
     @Override
     public SleepAnalysisResult<Optional<Integer>> apply(List<SleepingSession> sleepingSessions) {
         return new SleepAnalysisResult<>(name, Optional.of((int) sleepingSessions.stream()
-            .filter(sleepingSession -> sleepingSession.getQuality().equals(sleepQuality)).count()));
+            .filter(session -> session.getQuality() == sleepQuality).count()));
     }
 }

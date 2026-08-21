@@ -33,7 +33,7 @@ public class SleepingSession {
 
     public static class Parser {
         public static SleepingSession parse(String line) throws FormatException {
-            String[] lineParts = line.split(";");
+            String[] lineParts = line.trim().split(";");
             if (lineParts.length > 3) {
                 throw new FormatException("Неверный формат строки");
             }
@@ -45,7 +45,7 @@ public class SleepingSession {
                     SleepQuality.valueOf(lineParts[2])
                 );
             } catch (DateTimeParseException | IllegalArgumentException e) {
-                throw new FormatException("Невеный формат строки: " + line);
+                throw new FormatException("Неверный формат строки: " + line);
             }
         }
     }
